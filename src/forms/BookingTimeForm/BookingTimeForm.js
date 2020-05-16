@@ -9,7 +9,8 @@ import { propTypes } from '../../util/types';
 import config from '../../config';
 import { Form, PrimaryButton } from '../../components';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
-import FieldDateAndTimeInput from './FieldDateAndTimeInput';
+
+//import FieldDateAndTimeInput from './FieldDateAndTimeInput';
 
 import css from './BookingTimeForm.css';
 
@@ -152,6 +153,7 @@ export class BookingTimeFormComponent extends Component {
                   }
                 />
               </p>
+              
               <div className={submitButtonClasses}>
                 <PrimaryButton type="submit">
                   <FormattedMessage id="BookingTimeForm.requestToBook" />

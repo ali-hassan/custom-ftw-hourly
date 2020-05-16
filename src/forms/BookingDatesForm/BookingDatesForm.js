@@ -13,8 +13,10 @@ import { Form, PrimaryButton, FieldDateRangeInput, FieldCheckbox, FieldRadioButt
 import { formatMoney } from '../../util/currency';
 import EstimatedBreakdownMaybe from './EstimatedBreakdownMaybe';
 
+import FieldDateAndTimeInput from './FieldDateAndTimeInput';
 
 import css from './BookingDatesForm.css';
+import csst from './BookingTimeForm.css';
 
 const identity = v => v;
 
@@ -94,6 +96,12 @@ export class BookingDatesFormComponent extends Component {
             addon,
             addon_1,
             addon_2,
+            listingId,
+            onFetchTimeSlots,
+            monthlyTimeSlots,
+            form,
+            pristine,
+            timeZone,
           } = fieldRenderProps;
 
           const addonFee = addon ? addon.addonFee : null;
@@ -175,6 +183,20 @@ export class BookingDatesFormComponent extends Component {
             submitButtonWrapperClassName || css.submitButtonWrapper
           );
 
+          const startDateInputProps = {
+            label: bookingStartLabel,
+            placeholderText: startDatePlaceholder,
+          };
+          const endDateInputProps = {
+            label: bookingEndLabel,
+            placeholderText: endDatePlaceholder,
+          };
+
+          const dateInputProps = {
+            startDateInputProps,
+            endDateInputProps,
+          };
+
           return (
             <Form onSubmit={handleSubmit} className={classes}>
               {timeSlotsError}
@@ -198,6 +220,22 @@ export class BookingDatesFormComponent extends Component {
                   bookingDatesRequired(startDateErrorMessage, endDateErrorMessage)
                 )}
               />
+
+              <FieldDateAndTimeInput
+                  {...dateInputProps}
+                  className={csst.bookingDates}
+                  listingId={listingId}
+                  name="bookingTime"
+                  bookingTimeId = {`${formId}.bookingTime`}
+                  bookingStartLabel={bookingStartLabel}
+                  onFetchTimeSlots={onFetchTimeSlots}
+                  monthlyTimeSlots={monthlyTimeSlots}
+                  values={values}
+                  intl={intl}
+                  form={form}
+                  pristine={pristine}
+                  timeZone={timeZone}
+             />
 
               <div className={css.addonTitleWrap}>
               <h2 class='BookingPanel_bookingTitle__Xw_J8'>Transporation + Pickup</h2>

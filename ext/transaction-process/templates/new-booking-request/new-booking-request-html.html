@@ -7,6 +7,13 @@
 {{date date format="MMM d, YYYY" tz="Etc/UTC"}}
 {{~/inline~}}
 
+{{~#*inline "format-day-time"~}}
+{{#with transaction.bookingTime}}
+{{date date format="EE h:mm a" tz=timezone}}
+{{/with}}
+{{~/inline~}}
+
+
 <html>
   <head>
     <style type="text/css">
@@ -88,6 +95,10 @@
         <tr class="top-row">
           <th class="left">You'll make</th>
           <th class="right">{{> format-money money=payout-total}}</th>
+        </tr>
+        <tr class="top-row">
+          <th class="left">Booking Time</th>
+          <th class="left">{{date booking.bootingTime format="EEEE" tz="Etc/UTC"}}</th>
         </tr>
       </tfoot>
     </table>

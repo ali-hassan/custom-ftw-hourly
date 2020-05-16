@@ -1,5 +1,5 @@
 // export { default as BookingDatesForm } from './BookingDatesForm1/BookingDatesForm';
-export { default as BookingDatesForm } from './BookingTimeForm/BookingTimeForm';
+export { default as BookingDatesForm } from './BookingDatesForm/BookingDatesForm';
 export { default as ContactDetailsForm } from './ContactDetailsForm/ContactDetailsForm';
 export { default as EditListingAvailabilityForm } from './EditListingAvailabilityForm/EditListingAvailabilityForm';
 export { default as EditListingDescriptionForm } from './EditListingDescriptionForm/EditListingDescriptionForm';

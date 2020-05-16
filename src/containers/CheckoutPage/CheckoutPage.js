@@ -130,7 +130,7 @@ export class CheckoutPageComponent extends Component {
    */
 
   customPricingParams(params) {
-    const { bookingStart, bookingEnd, listing, addonFee, addonFee_1, addonFee_2, ...rest } = params;
+    const { bookingStart, bookingEnd, bookingTime,listing, addonFee, addonFee_1, addonFee_2, ...rest } = params;
     const { amount, currency } = listing.attributes.price;
 
     const unitType = config.bookingUnitType;
@@ -170,6 +170,7 @@ export class CheckoutPageComponent extends Component {
       listingId: listing.id,
       bookingStart,
       bookingEnd,
+      bookingTime,
       lineItems: [
         ...addonFeeLineItemMaybe,
         ...addonFeeLineItemMaybe_1,
@@ -206,6 +207,7 @@ export class CheckoutPageComponent extends Component {
       bookingData,
       bookingDates,
       listing,
+      bookingTime,
       transaction,
       fetchSpeculatedTransaction,
       fetchStripeCustomer,
@@ -223,15 +225,15 @@ export class CheckoutPageComponent extends Component {
     // Action is 'REPLACE' when user has directed through login/signup process
     const hasNavigatedThroughLink = history.action === 'PUSH' || history.action === 'REPLACE';
 
-    const hasDataInProps = !!(bookingData && bookingDates && listing) && hasNavigatedThroughLink;
+    const hasDataInProps = !!(bookingData && bookingDates && listing && bookingTime) && hasNavigatedThroughLink;
     if (hasDataInProps) {
       // Store data only if data is passed through props and user has navigated through a link.
-      storeData(bookingData, bookingDates, listing, transaction, STORAGE_KEY);
+      storeData(bookingData, bookingDates, bookingTime,listing, transaction, STORAGE_KEY);
     }
 
     // NOTE: stored data can be empty if user has already successfully completed transaction.
     const pageData = hasDataInProps
-      ? { bookingData, bookingDates, listing, transaction }
+      ? { bookingData, bookingDates, bookingTime , listing, transaction }
       : storedData(STORAGE_KEY);
 
     // Check if a booking is already created according to stored data.
@@ -246,16 +248,18 @@ export class CheckoutPageComponent extends Component {
       pageData.bookingDates &&
       pageData.bookingDates.bookingStart &&
       pageData.bookingDates.bookingEnd &&
+      pageData.bookingTime &&
       !isBookingCreated;
 
     if (shouldFetchSpeculatedTransaction) {
       const listingId = pageData.listing.id;
-      const { bookingStart, bookingEnd } = pageData.bookingDates;
+      const { bookingStart, bookingEnd, bookingTime } = pageData.bookingDates;
 
       // Convert picked date to date that will be converted on the API as
       // a noon of correct year-month-date combo in UTC
       const bookingStartForAPI = dateFromLocalToAPI(bookingStart);
       const bookingEndForAPI = dateFromLocalToAPI(bookingEnd);
+      const bookingTimeForAPI = dateFromLocalToAPI(bookingTime);
 
       // Fetch speculated transaction for showing price in booking breakdown
       // NOTE: if unit type is line-item/units, quantity needs to be added.
@@ -269,6 +273,7 @@ export class CheckoutPageComponent extends Component {
           listing,
           bookingStart: bookingStartForAPI,
           bookingEnd: bookingEndForAPI,
+          bookingTime: bookingTimeForAPI,
           addonFee,
           addonFee_1,
           addonFee_2,
@@ -335,8 +340,8 @@ export class CheckoutPageComponent extends Component {
       const order = ensureTransaction(fnParams);
       if (order.id) {
         // Store order.
-        const { bookingData, bookingDates, listing } = pageData;
-        storeData(bookingData, bookingDates, listing, order, STORAGE_KEY);
+        const { bookingData, bookingDates, bookingTime, listing } = pageData;
+        storeData(bookingData, bookingDates, bookingTime, listing, order, STORAGE_KEY);
         this.setState({ pageData: { ...pageData, transaction: order } });
       }
 
@@ -465,6 +470,7 @@ export class CheckoutPageComponent extends Component {
       listing: pageData.listing,
       bookingStart: tx.booking.attributes.start,
       bookingEnd: tx.booking.attributes.end,
+      bookingTime:tx.booking.bookingTime,
       ...optionalPaymentParams,
       addonFee,
       addonFee_1,
@@ -608,7 +614,7 @@ export class CheckoutPageComponent extends Component {
 
     const isLoading = !this.state.dataLoaded || speculateTransactionInProgress;
 
-    const { listing, bookingDates, transaction } = this.state.pageData;
+    const { listing, bookingDates, bookingTime ,transaction } = this.state.pageData;
     const existingTransaction = ensureTransaction(transaction);
     const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
     const currentListing = ensureListing(listing);
@@ -651,7 +657,8 @@ export class CheckoutPageComponent extends Component {
     const hasBookingDates = !!(
       bookingDates &&
       bookingDates.bookingStart &&
-      bookingDates.bookingEnd
+      bookingDates.bookingEnd &&
+      bookingTime 
     );
     const hasRequiredData = hasListingAndAuthor && hasBookingDates;
     const canShowPage = hasRequiredData && !isOwnListing;
@@ -945,6 +952,7 @@ CheckoutPageComponent.defaultProps = {
   listing: null,
   bookingData: {},
   bookingDates: null,
+  bookingTime:null,
   speculateTransactionError: null,
   speculatedTransaction: null,
   transaction: null,
@@ -960,6 +968,7 @@ CheckoutPageComponent.propTypes = {
     bookingStart: instanceOf(Date).isRequired,
     bookingEnd: instanceOf(Date).isRequired,
   }),
+  bookingTime:string.isRequired,
   fetchStripeCustomer: func.isRequired,
   stripeCustomerFetched: bool.isRequired,
   fetchSpeculatedTransaction: func.isRequired,
@@ -1001,6 +1010,7 @@ const mapStateToProps = state => {
     listing,
     bookingData,
     bookingDates,
+    bookingTime,
     stripeCustomerFetched,
     speculateTransactionInProgress,
     speculateTransactionError,
@@ -1017,6 +1027,7 @@ const mapStateToProps = state => {
     stripeCustomerFetched,
     bookingData,
     bookingDates,
+    bookingTime,
     speculateTransactionInProgress,
     speculateTransactionError,
     speculatedTransaction,
