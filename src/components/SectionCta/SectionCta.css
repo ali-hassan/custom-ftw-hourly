@@ -1,0 +1,118 @@
+@import '../../marketplace.css';
+
+.title {
+  @apply --marketplaceH1FontStyles;
+
+  margin-top: 1000;
+  max-width: 735px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 23px;
+  }
+}
+
+.locations {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+  flex-wrap:wrap;
+
+
+  @media (--viewportMedium) {
+    flex-direction: row;
+    margin-top: 57px;
+  }
+}
+
+.location {
+  width: 100%;
+  margin-top: 25px;
+  position: relative;
+
+
+  /* Remove link's hover effect */
+  &:hover {
+    text-decoration: none;
+  }
+
+  @media (--viewportMedium) {
+    margin-top: 0;
+    flex: 1 0 21%;
+    margin-bottom:20px;
+  }
+} 
+
+.location {
+  @media (--viewportMedium) {
+    margin-right: 20px;
+  }
+}
+
+.location:nth-child(4n) {
+  @media (--viewportMedium) {
+    margin-right: 0;
+  }
+}
+
+/* A wrapper for a responsive image that holds it's aspect ratio */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 4px;
+  transition: var(--transitionStyleButton);
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: var(--boxShadowSectionLocationHover);
+  }
+}
+
+/* An image wrapper that defines the images aspect ratio */
+.aspectWrapper {
+  padding-bottom: calc(6 / 13 * 100%); /* 13:6 Aspect Ratio */
+
+  @media (--viewportMedium) {
+    padding-bottom: calc(2 / 3 * 100%); /* 3:2 Aspect Ratio */
+  }
+}
+
+.locationImage {
+  /* Layout - image will take space defined by aspect ratio wrapper */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.linkText {
+  @apply --marketplaceH2FontStyles;
+  color: var(--matterColor);
+  margin-top: 0px;
+  margin-bottom: 0;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-51%, -50%);
+
+  @media (--viewportMedium) {
+    /*margin-top: 21px;*/
+  }
+}
+
+.locationName {
+  color: #fff;
+  white-space: nowrap;
+
+  @media (--viewportMedium) {
+    font-size: 21px;
+  }
+}
+
+
+

@@ -1,0 +1,49 @@
+@import '../../marketplace.css';
+
+.root {
+  /* Dimensions */
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+
+  @media (--viewportMedium) {
+    padding-top: 2px;
+  }
+}
+
+.error {
+  color: var(--failColor);
+}
+
+.priceInput {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.submitButton {
+  margin-top: auto;
+  margin-bottom: 24px;
+
+  @media (--viewportLarge) {
+    display: inline-block;
+    width: 241px;
+    margin-top: 100px;
+  }
+}
+
+
+.tip {
+  @apply --marketplaceH5FontStyles;
+  flex-shrink: 0;
+  color: var(--matterColorAnti);
+  margin-top: 5px !important;
+  margin-bottom: 60px;
+
+  @media (--viewportLarge) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,271 @@
+@import '../../marketplace.css';
+
+:root {
+  /*
+    These variables are available in global scope through ":root"
+    element (<html> tag). Variables with the same names are going to
+    overwrite each other if CSS Properties' (PostCSS plugin)
+    configuration "preserve: true" is used - meaning that variables
+    are left to CSS bundle. We are planning to enable it in the future
+    since browsers support CSS Properties already.
+ */
+
+  --SectionHero_desktopTitleMaxWidth: 625px;
+
+  --SectionHero_animation: {
+    animation-name: animationTitle;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    -webkit-animation-fill-mode: forwards;
+
+    visibility: hidden;
+    opacity: 1;
+    position: relative;
+  }
+}
+
+/* Animation for the hero elements */
+
+@keyframes animationTitle {
+  0% {
+    visibility: hidden;
+    opacity: 0;
+    top: -20px;
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    top: 0;
+  }
+}
+
+.root, .rootQuote {
+  @apply --backgroundImage;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  /*margin-bottom: 30px;*/
+
+  /* Text positioning is done with paddings */
+}
+
+.root{
+  background: url(https://images.unsplash.com/photo-1495036019936-220b29b930ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80) 0 bottom;
+  background-size:cover;
+  position: relative;
+  &:after{
+    content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+}
+
+.heroContent {
+  margin: 0 24px 0 24px;
+  position: relative;
+  z-index: 1;
+
+  @media (--viewportMedium) {
+    margin: 0 7.5vw 0 7.5vw;
+  }
+
+  /* Special viewport for adjusting the heroContent's placement */
+
+  @media only screen and (min-width: 1025px) {
+    padding: 80px 0px;;
+  }
+
+  @media only screen and (min-width: 1367px) {
+    margin: 0 auto;
+    max-width: calc(1052px + 36px + 36px);
+    width: 100%;
+    padding: 0 36px 0 36px;
+  }
+}
+
+.heroMainTitle {
+  @apply --marketplaceHeroTitleFontStyles;
+  color: var(--matterColorLight);
+
+  @apply --SectionHero_animation;
+  animation-delay: 0.5s;
+
+  @media (--viewportMedium) {
+    max-width: 535px;
+  }
+}
+
+.heroSubTitle {
+  @apply --marketplaceBodyFontStyles;
+
+  color: var(--matterColorLight);
+  margin: 0 0 32px 0;
+
+  @apply --SectionHero_animation;
+  animation-delay: 0.65s;
+
+  @media (--viewportMedium) {
+    max-width: var(--SectionHero_desktopTitleMaxWidth);
+    margin: 0 0 63px 0;
+  }
+}
+
+.rootQuote{
+  margin: 50px 20px 30px;
+  background: url("https://cdn.shopify.com/s/files/1/0322/7762/7016/files/partner-placeholder_a84acf3b-21da-4d94-9a0b-6d9d41fd10fc.jpg?v=1587782510") 0 center no-repeat;
+  background-size:cover;
+  position: relative;
+  &:after{
+    content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.99) 0%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.99) 0%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0.99) 0%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+  }
+}
+
+.quote{
+  padding: 20px;
+  max-width: 530px;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+   @media (--viewportMedium) {
+    padding: 60px;
+  }
+}
+.quoteTitle{
+  font-size: 18px;
+  line-height: 1.3;
+  @media (--viewportMedium) {
+    font-size: 24px;
+  }
+}
+.quoteAuthor{
+  font-size:14px;
+}
+
+
+.staticPageWrapper {
+  width: calc(100% - 48px);
+  max-width: 1056px;
+  margin: 24px auto;
+
+  @media (--viewportMedium) {
+    width: calc(100% - 72px);
+    margin: 35px auto;
+  }
+}
+
+.coverImage {
+  width: 100%;
+  height: 528px;
+  border-radius: 4px;
+  object-fit: cover;
+  margin: 32px 0 40px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (--viewportMedium) {
+    flex-wrap: wrap;
+  }
+}
+
+.contentSide {
+  font-style: italic;
+
+  @media (--viewportMedium) {
+    width: 193px;
+    margin-right: 103px;
+    margin-top: 8px;
+  }
+}
+
+.contentMain {
+  width: 90%;
+
+  @media (--viewportMedium) {
+    max-width: 650px;
+  }
+}
+
+.columnSection{
+  flex-direction: column;
+  display: flex;
+  @media (--viewportMedium) {
+    flex-direction: row;
+  }
+}
+
+.columThree{
+  width: 100%;
+  display: block;
+  padding: 0 2%;
+  @media (--viewportMedium) {
+  width: 33.3%;
+  display: inline-block;
+  }
+}
+
+.subtitle, .subtitleCenter {
+  @apply --marketplaceH3FontStyles;
+  margin-top: 48px;
+  margin-bottom: 40px;
+  font-size: 48px;
+  width: 100%;
+  line-height: 1.3;
+}
+
+.subsubtitle{
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+ .subtitleCenter{
+  text-align: center;
+  margin-bottom: 20px;
+ }
+
+ .ctaText{
+  max-width: 800px;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+ }
+
+ .buttonWrap{
+  width: 100%;
+  margin: 30px 0 40px;
+  text-align: center;
+ }
+
+ .button{
+  background-color: #c0392b;
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  padding: 15px 30px;
+
+  &:hover{
+    text-decoration:none;
+    background: #8c291e;
+  }
+
+ }
+
